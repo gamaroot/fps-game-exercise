@@ -13,8 +13,8 @@ namespace game
         [Range(1f, 3f)]
         [SerializeField] private float attackDistance = 2f;
 
-        [SerializeField] private float minDamage = 5f;
-        [SerializeField] private float maxDamage = 25f;
+        [SerializeField] private int minDamage = 3;
+        [SerializeField] private int maxDamage = 10;
 
         [Header("Components")]
         [SerializeField] private Animator animator;
@@ -46,7 +46,7 @@ namespace game
 
             this.agent.SetDestination(playerPosition);
             if (Vector3.Distance(base.transform.position, playerPosition) < this.attackDistance)
-                Attack();
+                SetAttackModeOn();
         }
 
         public void Setup(IPlayer player, Action onEnemyDeath)
@@ -55,13 +55,18 @@ namespace game
             this.onEnemyDeath = onEnemyDeath;
         }
 
-        private void Attack()
+        // Called through Animation Event
+        public void Attack()
+        {
+            this.player.OnGetAttacked(UnityEngine.Random.Range(minDamage, maxDamage));
+        }
+
+        private void SetAttackModeOn()
         {
             this.animator.SetInteger(AnimationConstants.ATTACK_VARIATION, UnityEngine.Random.Range(0, 2));
             this.animator.SetTrigger(AnimationConstants.ATTACK_TRIGGER);
 
             this.player.OnPathBlocked();
-            this.player.OnGetAttacked(UnityEngine.Random.Range(minDamage, maxDamage));
         }
 
         public void Death()

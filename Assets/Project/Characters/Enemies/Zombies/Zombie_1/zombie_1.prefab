@@ -409,7 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 0
   attackDistance: 1.5
-  minDamage: 5
-  maxDamage: 25
+  minDamage: 3
+  maxDamage: 10
   animator: {fileID: 121187709183501755}
   agent: {fileID: -1330340405676135239}

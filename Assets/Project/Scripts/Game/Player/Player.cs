@@ -2,26 +2,28 @@ using UnityEngine;
 
 namespace game
 {
-    [RequireComponent(typeof(PlayerController))]
+    [RequireComponent(typeof(PlayerController), typeof(PlayerHealthController))]
     public class Player : MonoBehaviour, IPlayer
     {
         [Header("Components")]
         [SerializeField] private PlayerController controller;
-
-        private float m_health = 100f;
+        [SerializeField] private PlayerHealthController health;
 
         private void OnValidate()
         {
-            if (controller == null)
+            if (this.controller == null)
                 this.controller = base.GetComponent<PlayerController>();
+
+            if (this.health == null)
+                this.health = base.GetComponent<PlayerHealthController>();
         }
 
-        public void OnGetAttacked(float damage)
+        public void OnGetAttacked(int damage)
         {
-            this.m_health -= damage;
+            if (!base.isActiveAndEnabled)
+                return;
 
-            if (this.m_health <= 0f)
-                this.Die();
+            this.health.OnGetDamaged(damage);
         }
 
         public void OnPathBlocked()
@@ -39,9 +41,9 @@ namespace game
             return base.transform.position;
         }
 
-        private void Die()
+        // Called through PlayerHealthController's inspector
+        public void OnPlayerDeath()
         {
-            Debug.Log("Player has Died!");
             base.enabled = false;
         }
     }
