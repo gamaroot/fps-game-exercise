@@ -35,6 +35,7 @@ namespace game
         {
             Debug.Log($"Player has been attacked! [{damage} dmg]");
             this.OnHealthUpdate(-damage);
+            CameraShake.Instance.Shake();
         }
 
         public void OnGetHealed(int heal)

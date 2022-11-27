@@ -31,6 +31,8 @@ namespace game
                     if (hit.collider.tag == GameTags.ZOMBIE)
                     {
                         hit.collider.GetComponent<Enemy>().Death();
+                        GameManager.Instance.bloodEffect.transform.position = hit.point;
+                        GameManager.Instance.bloodEffect.Play();
                     }
                 }
             }

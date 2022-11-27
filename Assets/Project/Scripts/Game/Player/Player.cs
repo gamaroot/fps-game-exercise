@@ -9,6 +9,8 @@ namespace game
         [SerializeField] private PlayerController controller;
         [SerializeField] private PlayerHealthController health;
 
+        [SerializeField] private Animator hitEffectAnimator;
+
         private void OnValidate()
         {
             if (this.controller == null)
@@ -24,6 +26,8 @@ namespace game
                 return;
 
             this.health.OnGetDamaged(damage);
+            
+            hitEffectAnimator.Play("Hit");
         }
 
         public void OnPathBlocked()

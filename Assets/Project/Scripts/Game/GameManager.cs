@@ -9,9 +9,14 @@ namespace game
         [SerializeField] Transform spawners;
         [SerializeField] ScoreDisplay scoreDisplay;
         [SerializeField] MiniMap miniMap;
+        
+        public ParticleSystem bloodEffect;
+        public static GameManager Instance;
 
         private void Awake()
         {
+            Instance = this;
+
             this.miniMap.Setup(this.player);
 
             Spawner[] spawners = this.spawners.GetComponentsInChildren<Spawner>();
